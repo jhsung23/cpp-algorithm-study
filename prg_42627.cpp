@@ -30,6 +30,7 @@ int solution(vector<vector<int>> jobs) {
         }
         
         
+        ㄴ
     }
     
     return answer;
