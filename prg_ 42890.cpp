@@ -1,8 +1,8 @@
 #include <string>
 #include <vector>
-#include <iostream>
 #include <algorithm>
 #include <set>
+#include <iostream>
 
 using namespace std;
 
@@ -24,17 +24,35 @@ int solution(vector<vector<string>> relation) {
                 }
                 s.insert(tmp);
             }
-            if(s.size()==relation.size()) {uniq.insert(index); cout<<"Dd"<<endl;}
+            if(s.size()==relation.size()) uniq.insert(index);
         }while(next_permutation(index.begin(), index.end()));
     }
     
     for(auto it=uniq.begin();it!=uniq.end();it++){
-        vector<int> tmp;
-        tmp.assign(it->begin(), it->end());
-        for(int i=0;i<tmp.size();i++){
-            cout<<tmp[i]<<" ";
+        vector<int> target;
+        target.assign(it->begin(), it->end());
+
+        auto it2=uniq.begin();
+        while(it2!=uniq.end()){
+            vector<int> compare, result;
+            compare.assign(it2->begin(), it2->end());
+
+            if(target==compare) {
+                it2++;
+                continue;
+            }
+            
+            for(int i=0;i<relation[0].size();i++){
+                result.push_back(target[i]&compare[i]);
+            }
+            
+            if(uniq.find(result)!=uniq.end()) {
+                if(compare!=result) uniq.erase(uniq.find(compare));
+                if(target!=result) uniq.erase(uniq.find(target));
+                it2=uniq.begin();
+            }else it2++;
         }
-        cout<<endl;
     }
-    return answer;
+    
+    return uniq.size();
 }
